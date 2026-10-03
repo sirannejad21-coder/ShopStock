@@ -1,2 +1,18 @@
-/* Write your code here */
-/*# sourceMappingURL=custom.css.map */
+.custom-logo-container {
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.custom-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.custom-logo {
+    width: 180px;
+    height: 165px;
+    object-fit: contain;
+    display: block;
+}
