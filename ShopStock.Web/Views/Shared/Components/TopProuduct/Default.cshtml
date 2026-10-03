@@ -1,0 +1,48 @@
+﻿
+
+@model IEnumerable<ShopStock.Domain.Models.Prouducts.Prouduct>
+
+<div class="ui-box mb-5">
+
+    <div class="ui-box-title">
+        منتخب محصولات تخفیف و حراج
+    </div>
+
+    <div class="ui-box-content">
+
+        <!-- Slider main container -->
+        <div class="swiper product-swiper-slider">
+
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+
+                <!-- Slides -->
+                @foreach (var item in Model)
+                {
+                    <div class="swiper-slide">
+
+                        <!-- start of product-card -->
+                    <partial name="_ProuductItem" model="@item"></partial>
+                        <!-- end of product-card -->
+
+                    </div>
+                }
+                <!-- End Slides -->
+
+            </div>
+            <!-- End swiper-wrapper -->
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+
+            <div class="swiper-button-next"></div>
+
+        </div>
+        <!-- End swiper -->
+
+    </div>
+
+</div>
+

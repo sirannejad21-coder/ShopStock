@@ -1,0 +1,187 @@
+﻿
+@using ShopStock.Domain.ViewModels.Catgory
+
+@model AdminCreateCatgoryViewModel
+
+@{
+    ViewData["Title"] = "ایجاد گروه";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <div class="card shadow-sm">
+
+        <!-- Header -->
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                ایجاد گروه جدید
+            </h5>
+
+        </div>
+
+
+        <!-- Body -->
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Catgory"
+                  asp-action="Create"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                @Html.AntiForgeryToken()
+
+             
+
+                    <!-- Validation -->
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- Parent Category -->
+                <!-- ========================= -->
+                @if (Model.ParentId.HasValue)
+                {
+                    <div class="alert alert-info">
+
+                        <i class="bx bx-category me-1"></i>
+
+                        در حال ایجاد زیرگروه برای:
+
+                        <strong>
+                            @Model.CatgoryParentTittle
+                        </strong>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-secondary">
+
+                        <i class="bx bx-category me-1"></i>
+
+                        این گروه به عنوان یک
+                        <strong>گروه اصلی</strong>
+                        ایجاد خواهد شد.
+
+                    </div>
+                }
+
+
+                <!-- ========================= -->
+                <!-- Category Title -->
+                <!-- ========================= -->
+
+                <div class="mb-4">
+
+                    <label asp-for="Tittle"
+                           class="form-label">
+                        نام گروه
+                    </label>
+
+                    <input asp-for="Tittle"
+                           class="form-control"
+                           placeholder="مثلاً لپ‌تاپ" />
+
+                    <span asp-validation-for="Tittle"
+                          class="text-danger">
+                    </span>
+
+                </div>
+                <input type="hidden" asp-for="ParentId" />
+                <input type="hidden" asp-for="CatgoryParentTittle" />
+
+
+                <!-- ========================= -->
+                <!-- Slug -->
+                <!-- ========================= -->
+
+                <div class="mb-4">
+
+                    <label asp-for="Slug"
+                           class="form-label">
+                        Slug
+                    </label>
+
+                    <input asp-for="Slug"
+                           class="form-control"
+                           placeholder="مثلاً laptop" />
+
+                    <span asp-validation-for="Slug"
+                          class="text-danger">
+                    </span>
+
+                    <div class="form-text">
+                        Slug برای آدرس صفحات و URL استفاده می‌شود.
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="Image"
+                           class="form-label">
+                        Slug
+                    </label>
+
+                    <input asp-for="Image"
+                           class="form-control"
+                           type="file"
+                           placeholder="مثلاً laptop" />
+
+                    <span asp-validation-for="Slug"
+                          class="text-danger">
+                    </span>
+
+                    <div class="form-text">
+                        Slug برای آدرس صفحات و URL استفاده می‌شود.
+                    </div>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- Buttons -->
+                <!-- ========================= -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        <i class="bx bx-save me-1"></i>
+                        ذخیره
+
+                    </button>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Catgory"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+
+                        <i class="bx bx-arrow-back me-1"></i>
+                        انصراف
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

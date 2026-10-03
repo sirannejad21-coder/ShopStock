@@ -1,0 +1,1594 @@
+﻿@using ShopStock.Domain.ViewModels.Prouduct
+@model AdminCreateProuductViewModel
+
+@{
+    ViewData["Title"] = "افزودن محصول";
+}
+
+<link rel="stylesheet"
+      href="~/AdminAssests/assets/vendor/libs/tagify/tagify.css">
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+   
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <a asp-area="Admin"
+           asp-controller="Prouduct"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+
+            <i class="bx bx-arrow-back me-1"></i>
+            بازگشت به محصولات
+
+        </a>
+
+    </div>
+
+
+    <!-- Form -->
+    <form asp-area="Admin"
+          asp-controller="Prouduct"
+          asp-action="Create"
+          method="post"
+          enctype="multipart/form-data"
+          id="productCreateForm">
+
+        @Html.AntiForgeryToken()
+
+
+        <!-- مقدار واقعی CategoryId -->
+        <input type="hidden"
+               asp-for="CatgoryId"
+               id="SelectedCategoryId" />
+
+
+        <div class="row">
+
+            <!-- ========================= -->
+            <!-- Main Content -->
+            <!-- ========================= -->
+
+            <div class="col-xl-8 col-lg-8 col-md-12">
+
+                <div class="card mb-4">
+
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+                            ایجاد محصول
+                        </h5>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+
+                        <!-- Validation -->
+                        <div asp-validation-summary="All"
+                             class="alert alert-danger mb-4">
+
+                            اطلاعات برای ایجاد محصول را وارد کنید
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Title / Slug / Tags -->
+                        <!-- ========================= -->
+
+                        <div class="row">
+
+                            <!-- Title -->
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Tittle"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="Tittle"
+                                       class="form-control"
+                                       placeholder="نام محصول را وارد کنید"
+                                       autocomplete="off" />
+
+                                <span asp-validation-for="Tittle"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Slug -->
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Slug"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="Slug"
+                                       id="Slug"
+                                       class="form-control"
+                                       placeholder="نام Url را وارد کنید"
+                                       autocomplete="off" />
+
+                                <span asp-validation-for="Slug"
+                                      class="text-danger"
+                                      id="slugValidation">
+                                </span>
+
+                                <div id="slugMessage"
+                                     class="mt-2">
+                                </div>
+
+                            </div>
+
+
+                            <!-- Tags -->
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Tags"
+                                       class="form-label">
+
+                                    تگ‌های محصول
+
+                                </label>
+
+                                <input asp-for="Tags"
+                                       type="text"
+                                       id="Tags"
+                                       class="form-control"
+                                       placeholder="تگ‌ها را وارد کنید..."
+                                       autocomplete="off" />
+
+                                <span asp-validation-for="Tags"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Price / Count -->
+                        <!-- ========================= -->
+
+                        <div class="row">
+
+                            <!-- Price -->
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Price"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-money"></i>
+                                    </span>
+
+                                    <input asp-for="Price"
+                                           type="number"
+                                           class="form-control"
+                                           placeholder="قیمت محصول"
+                                           min="0"
+                                           step="0.01" />
+
+                                </div>
+
+                                <span asp-validation-for="Price"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <!-- Count -->
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Count"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-package"></i>
+                                    </span>
+
+                                    <input asp-for="Count"
+                                           type="number"
+                                           class="form-control"
+                                           placeholder="تعداد موجودی"
+                                           min="0" />
+
+                                </div>
+
+                                <span asp-validation-for="Count"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Short Description -->
+                        <!-- ========================= -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="ShortDescript"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="ShortDescript"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="توضیحات کوتاه محصول را وارد کنید"></textarea>
+
+                            <span asp-validation-for="ShortDescript"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Detail Description -->
+                        <!-- ========================= -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="DetailReview"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="DetailReview"
+                                      class="form-control"
+                                      rows="7"
+                                      placeholder="توضیحات کامل محصول را وارد کنید"></textarea>
+
+                            <span asp-validation-for="DetailReview"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Review -->
+                        <!-- ========================= -->
+
+                        <div class="mb-4">
+
+                            <label asp-for="Review"
+                                   class="form-label">
+                            </label>
+
+                            <textarea asp-for="Review"
+                                      class="form-control"
+                                      rows="7"
+                                      placeholder="توضیحات محصول را وارد کنید"></textarea>
+
+                            <span asp-validation-for="Review"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Category & Image -->
+                        <!-- ========================= -->
+
+                        <div class="mb-5">
+
+
+                            <!-- ========================= -->
+                            <!-- Category -->
+                            <!-- ========================= -->
+
+                            <div class="card border-0 bg-light mb-4">
+
+                                <div class="card-body">
+
+
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <div class="avatar me-3">
+
+                                            <span class="avatar-initial rounded bg-label-primary">
+
+                                                <i class="bx bx-category fs-4"></i>
+
+                                            </span>
+
+                                        </div>
+
+                                        <div>
+
+                                            <h5 class="mb-1">
+                                                دسته‌بندی محصول
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                دسته‌بندی مناسب محصول را انتخاب کنید
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+
+
+                                        <!-- Main Category -->
+
+                                        <div class="col-md-4 mb-3">
+
+                                            <label class="form-label fw-semibold">
+                                                دسته‌بندی اصلی
+                                            </label>
+
+                                            <select class="form-select"
+                                                    id="Main-catgory">
+
+                                                <option value="">
+                                                    انتخاب گروه اصلی
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+
+                                        <!-- Sub Category -->
+
+                                        <div class="col-md-4 mb-3">
+
+                                            <label class="form-label fw-semibold">
+                                                دسته‌بندی فرعی
+                                            </label>
+
+                                            <select class="form-select"
+                                                    id="sub-catgory">
+
+                                                <option value="">
+                                                    انتخاب گروه فرعی
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+
+                                        <!-- Final Category -->
+
+                                        <div class="col-md-4 mb-3">
+
+                                            <label class="form-label fw-semibold">
+                                                دسته‌بندی نهایی
+                                            </label>
+
+                                            <select class="form-select"
+                                                    id="Final-catgory">
+
+                                                <option value="">
+                                                    انتخاب گروه نهایی
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <span asp-validation-for="CatgoryId"
+                                          class="text-danger">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ========================= -->
+                            <!-- Product Image -->
+                            <!-- ========================= -->
+
+                            <div class="card border-0 bg-light">
+
+                                <div class="card-body">
+
+
+                                    <!-- Header -->
+
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <div class="avatar me-3">
+
+                                            <span class="avatar-initial rounded bg-label-info">
+
+                                                <i class="bx bx-image fs-4"></i>
+
+                                            </span>
+
+                                        </div>
+
+                                        <div>
+
+                                            <h5 class="mb-1">
+                                                تصویر محصول
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                تصویر اصلی محصول را انتخاب کنید
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- Main Image -->
+
+                                    <div class="row align-items-center">
+
+
+                                        <!-- Preview -->
+
+                                        <div class="col-md-3 text-center mb-3 mb-md-0">
+
+                                            <img id="productPreview"
+                                                 src="~/ProuductImage/nophoto.jpg"
+                                                 alt="تصویر محصول"
+                                                 class="rounded border shadow-sm"
+                                                 style="width:140px;
+                                            height:140px;
+                                            object-fit:cover;" />
+
+                                        </div>
+
+
+                                        <!-- File -->
+
+                                        <div class="col-md-9">
+
+                                            <label asp-for="FormFile"
+                                                   class="form-label fw-semibold">
+                                            </label>
+
+                                            <input asp-for="FormFile"
+                                                   type="file"
+                                                   id="productImageInput"
+                                                   class="form-control"
+                                                   accept="image/png,image/jpeg,image/jpg,image/webp" />
+
+                                            <span asp-validation-for="FormFile"
+                                                  class="text-danger">
+                                            </span>
+
+                                            <div class="form-text mt-2">
+
+                                                <i class="bx bx-info-circle me-1"></i>
+
+                                                فرمت‌های مجاز:
+                                                JPG، JPEG، PNG، WEBP
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <hr class="my-4" />
+
+
+                                    <!-- Gallery Header -->
+
+                                    <div class="d-flex align-items-center mb-4">
+
+                                        <div class="avatar me-3">
+
+                                            <span class="avatar-initial rounded bg-label-info">
+
+                                                <i class="bx bx-images fs-4"></i>
+
+                                            </span>
+
+                                        </div>
+
+                                        <div>
+
+                                            <h5 class="mb-1">
+                                                تصاویر گالری
+                                            </h5>
+
+                                            <small class="text-muted">
+                                                تصاویر گالری محصول را انتخاب کنید
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- Gallery -->
+
+                                    <div class="row">
+
+                                        <div class="col-12">
+
+                                            <label asp-for="Galleries"
+                                                   class="form-label fw-semibold">
+                                            </label>
+
+                                            <input asp-for="Galleries"
+                                                   type="file"
+                                                   id="productGalleryInput"
+                                                   class="form-control"
+                                                   multiple
+                                                   accept="image/png,image/jpeg,image/jpg,image/webp" />
+
+                                            <span asp-validation-for="Galleries"
+                                                  class="text-danger">
+                                            </span>
+
+                                            <div class="form-text mt-2">
+
+                                                <i class="bx bx-info-circle me-1"></i>
+
+                                                امکان انتخاب چند تصویر برای گالری وجود دارد.
+
+                                                فرمت‌های مجاز:
+                                                JPG، JPEG، PNG، WEBP
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ========================= -->
+                        <!-- Active -->
+                        <!-- ========================= -->
+
+                        <div class="mb-4">
+
+                            <div class="form-check form-switch">
+
+                                <input asp-for="Active"
+                                       class="form-check-input"
+                                       type="checkbox" />
+
+                                <label asp-for="Active"
+                                       class="form-check-label">
+                                </label>
+
+                            </div>
+
+                            <small class="text-muted">
+                                در صورت فعال بودن، محصول در فروشگاه قابل نمایش خواهد بود.
+                            </small>
+
+                        </div>
+
+
+                        <hr />
+
+
+                        <!-- ========================= -->
+                        <!-- Buttons -->
+                        <!-- ========================= -->
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary"
+                                    id="createProductButton">
+
+                                <i class="bx bx-plus me-1"></i>
+
+                                ایجاد محصول
+
+                            </button>
+
+
+                            <a asp-area="Admin"
+                               asp-controller="Prouduct"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                <i class="bx bx-x me-1"></i>
+
+                                انصراف
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- Sidebar -->
+            <!-- ========================= -->
+
+            <div class="col-xl-4 col-lg-4 col-md-12">
+
+
+                <!-- Product Preview -->
+
+                <div class="card mb-4">
+
+                    <div class="card-body text-center">
+
+                        <div class="mb-3">
+
+                            <div class="avatar avatar-xl mx-auto">
+
+                                <span class="avatar-initial rounded bg-label-primary"
+                                      style="width:100px;
+                                    height:100px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;">
+
+                                    <i class="bx bx-package fs-1"></i>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <h5 class="mb-1">
+                            ایجاد محصول جدید
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            اطلاعات محصول را با دقت وارد کنید.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Important Information -->
+
+                <div class="card">
+
+                    <div class="card-body">
+
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <div class="avatar me-3">
+
+                                <span class="avatar-initial rounded bg-label-info">
+
+                                    <i class="bx bx-info-circle"></i>
+
+                                </span>
+
+                            </div>
+
+                            <h5 class="mb-0">
+                                نکات مهم
+                            </h5>
+
+                        </div>
+
+
+                        <ul class="mb-0 ps-3">
+
+                            <li class="mb-2">
+                                عنوان محصول را واضح و کوتاه وارد کنید.
+                            </li>
+
+                            <li class="mb-2">
+                                قیمت محصول باید مقدار معتبر داشته باشد.
+                            </li>
+
+                            <li class="mb-2">
+                                تعداد موجودی نمی‌تواند منفی باشد.
+                            </li>
+
+                            <li class="mb-2">
+                                برای تصویر محصول از فرمت‌های مجاز استفاده کنید.
+                            </li>
+
+                            <li>
+                                قبل از ذخیره، اطلاعات محصول را بررسی کنید.
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+    ```
+
+</div>
+
+@section Scripts {
+
+    ```
+    <!-- ========================= -->
+    <!-- Slug Check -->
+    <!-- ========================= -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const slugInput =
+                document.getElementById("Slug");
+
+            const slugMessage =
+                document.getElementById("slugMessage");
+
+            const slugValidation =
+                document.getElementById("slugValidation");
+
+            const form =
+                document.getElementById("productCreateForm");
+
+            const submitButton =
+                document.getElementById("createProductButton");
+
+            const selectedCategory =
+                document.getElementById("SelectedCategoryId");
+
+
+            if (!slugInput || !form) {
+                return;
+            }
+
+
+            let slugIsValid = false;
+
+            let slugChecking = false;
+
+            let lastCheckedSlug = "";
+
+
+            // =========================
+            // نمایش پیام Slug
+            // =========================
+
+            function showSlugMessage(message, type) {
+
+                if (!slugMessage) {
+                    return;
+                }
+
+
+                if (type === "success") {
+
+                    slugMessage.innerHTML =
+                        `<span class="text-success">
+                                <i class="bx bx-check-circle me-1"></i>
+                                ${message}
+                             </span>`;
+
+                }
+                else if (type === "error") {
+
+                    slugMessage.innerHTML =
+                        `<span class="text-danger">
+                                <i class="bx bx-x-circle me-1"></i>
+                                ${message}
+                             </span>`;
+
+                }
+                else {
+
+                    slugMessage.innerHTML =
+                        `<span class="text-muted">
+                                <i class="bx bx-loader-alt bx-spin me-1"></i>
+                                ${message}
+                             </span>`;
+                }
+
+            }
+
+
+            // =========================
+            // بررسی Slug
+            // =========================
+
+            async function checkSlug() {
+
+                const slug =
+                    slugInput.value.trim();
+
+
+                // اگر خالی است
+                if (!slug) {
+
+                    slugIsValid = false;
+
+                    lastCheckedSlug = "";
+
+                    showSlugMessage(
+                        "لطفاً Slug را وارد کنید.",
+                        "error"
+                    );
+
+                    return false;
+                }
+
+
+                // اگر همین Slug قبلاً بررسی شده
+                if (lastCheckedSlug === slug &&
+                    slugIsValid === true) {
+
+                    return true;
+                }
+
+
+                slugChecking = true;
+
+                slugIsValid = false;
+
+                showSlugMessage(
+                    "در حال بررسی Slug...",
+                    "loading"
+                );
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `/Admin/Prouduct/CheckSlug?slug=${encodeURIComponent(slug)}`,
+                            {
+                                method: "GET",
+                                headers: {
+                                    "Accept": "application/json"
+                                }
+                            }
+                        );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "خطا در ارتباط با سرور"
+                        );
+
+                    }
+
+
+                    const result =
+                        await response.json();
+
+
+                    // =========================
+                    // Slug تکراری
+                    // =========================
+
+                    if (result.exists) {
+
+                        slugIsValid = false;
+
+                        lastCheckedSlug = slug;
+
+                        showSlugMessage(
+                            "این Slug قبلاً استفاده شده است.",
+                            "error"
+                        );
+
+                        return false;
+                    }
+
+
+                    // =========================
+                    // Slug آزاد
+                    // =========================
+
+                    slugIsValid = true;
+
+                    lastCheckedSlug = slug;
+
+                    showSlugMessage(
+                        "این Slug قابل استفاده است.",
+                        "success"
+                    );
+
+                    return true;
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Slug Check Error:",
+                        error
+                    );
+
+
+                    slugIsValid = false;
+
+                    lastCheckedSlug = "";
+
+
+                    showSlugMessage(
+                        "خطا در بررسی Slug. دوباره تلاش کنید.",
+                        "error"
+                    );
+
+
+                    return false;
+                }
+                finally {
+
+                    slugChecking = false;
+
+                }
+
+            }
+
+
+            // =========================
+            // تغییر Slug
+            // =========================
+
+            slugInput.addEventListener(
+                "input",
+                function() {
+
+                    const currentSlug =
+                        slugInput.value.trim();
+
+
+                    // اگر مقدار تغییر کرده،
+                    // نتیجه قبلی دیگر معتبر نیست.
+
+                    if (currentSlug !== lastCheckedSlug) {
+
+                        slugIsValid = false;
+
+                        showSlugMessage(
+                            "برای بررسی، Enter بزنید یا از فیلد خارج شوید.",
+                            "loading"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            // =========================
+            // Enter
+            // =========================
+
+            slugInput.addEventListener(
+                "keydown",
+                async function(event) {
+
+                    if (event.key !== "Enter") {
+                        return;
+                    }
+
+
+                    event.preventDefault();
+
+
+                    await checkSlug();
+
+                }
+            );
+
+
+            // =========================
+            // Blur
+            // =========================
+
+            slugInput.addEventListener(
+                "blur",
+                async function() {
+
+                    await checkSlug();
+
+                }
+            );
+
+
+            // =========================
+            // Submit فرم
+            // =========================
+
+            form.addEventListener(
+                "submit",
+                async function(event) {
+
+                    /*
+                     * فعلاً جلوی Submit را می‌گیریم
+                     * تا تمام بررسی‌های لازم انجام شود.
+                     */
+
+                    event.preventDefault();
+
+
+                    // جلوگیری از چند بار کلیک
+                    if (slugChecking) {
+                        return;
+                    }
+
+
+                    // =========================
+                    // بررسی Category
+                    // =========================
+
+                    if (selectedCategory &&
+                        !selectedCategory.value) {
+
+                        alert(
+                            "لطفاً حداقل یک دسته‌بندی را انتخاب کنید."
+                        );
+
+                        return;
+                    }
+
+
+                    // =========================
+                    // بررسی Slug
+                    // =========================
+
+                    const currentSlug =
+                        slugInput.value.trim();
+
+
+                    /*
+                     * اگر Slug تغییر کرده باشد،
+                     * حتماً دوباره از بانک بررسی می‌کنیم.
+                     */
+
+                    if (currentSlug !== lastCheckedSlug) {
+
+                        slugIsValid =
+                            await checkSlug();
+
+                    }
+
+
+                    // اگر Slug معتبر نیست
+                    if (!slugIsValid) {
+
+                        slugInput.focus();
+
+                        return;
+                    }
+
+
+                    // =========================
+                    // ارسال نهایی فرم
+                    // =========================
+
+                    if (submitButton) {
+
+                        submitButton.disabled = true;
+
+                        submitButton.innerHTML =
+                            `<i class="bx bx-loader-alt bx-spin me-1"></i>
+                                 در حال ایجاد محصول...`;
+
+                    }
+
+
+                    /*
+                     * اینجا دیگر event submit را دوباره اجرا نمی‌کنیم.
+                     *
+                     * فرم مستقیماً ارسال می‌شود.
+                     */
+
+                    form.submit();
+
+                }
+            );
+
+        });
+
+    </script>
+
+
+    <!-- ========================= -->
+    <!-- CKEditor -->
+    <!-- ========================= -->
+
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <script>
+
+        CKEDITOR.replace('Review');
+
+        CKEDITOR.replace('DetailReview');
+
+    </script>
+
+
+    <!-- ========================= -->
+    <!-- Validation -->
+    <!-- ========================= -->
+
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <!-- ========================= -->
+    <!-- Product Image Preview -->
+    <!-- ========================= -->
+
+    <script>
+
+        const imageInput =
+            document.getElementById('productImageInput');
+
+        const imagePreview =
+            document.getElementById('productPreview');
+
+
+        if (imageInput && imagePreview) {
+
+            imageInput.addEventListener(
+                'change',
+                function(event) {
+
+                    const file =
+                        event.target.files[0];
+
+
+                    if (file) {
+
+                        imagePreview.src =
+                            URL.createObjectURL(file);
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+
+    <!-- ========================= -->
+    <!-- Tagify -->
+    <!-- ========================= -->
+
+    <script src="~/AdminAssests/assets/vendor/libs/tagify/tagify.js"></script>
+
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const tagInput =
+                    document.getElementById("Tags");
+
+
+                if (!tagInput) {
+                    return;
+                }
+
+
+                const tagify =
+                    new Tagify(
+                        tagInput,
+                        {
+
+                            delimiters: ",",
+
+                            dropdown: {
+                                enabled: 0
+                            }
+
+                        }
+                    );
+
+
+                const form =
+                    document.getElementById("productCreateForm");
+
+
+                if (form) {
+
+                    form.addEventListener(
+                        "submit",
+                        function() {
+
+                            console.log(
+                                "Tags JSON:",
+                                tagInput.value
+                            );
+
+                        }
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+    <!-- ========================= -->
+    <!-- Category -->
+    <!-- ========================= -->
+
+    <script>
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+
+                const mainCategory =
+                    document.getElementById("Main-catgory");
+
+
+                const subCategory =
+                    document.getElementById("sub-catgory");
+
+
+                const finalCategory =
+                    document.getElementById("Final-catgory");
+
+
+                const selectedCategory =
+                    document.getElementById("SelectedCategoryId");
+
+
+                // =========================
+                // بررسی عناصر
+                // =========================
+
+                if (!mainCategory ||
+                    !subCategory ||
+                    !finalCategory ||
+                    !selectedCategory) {
+
+                    return;
+
+                }
+
+
+                // =========================
+                // گرفتن دسته‌های اصلی
+                // =========================
+
+                fetch(
+                    "/Admin/Catgory/GetCatgories"
+                )
+
+                    .then(response => {
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "خطا در دریافت دسته بندی های اصلی"
+                            );
+
+                        }
+
+                        return response.json();
+
+                    })
+
+                    .then(data => {
+
+                        data.forEach(item => {
+
+                            const option =
+                                document.createElement("option");
+
+
+                            option.value =
+                                item.id;
+
+
+                            option.textContent =
+                                item.tittle;
+
+
+                            mainCategory.appendChild(
+                                option
+                            );
+
+                        });
+
+                    })
+
+                    .catch(error => {
+
+                        console.error(
+                            "خطا در دریافت دسته بندی اصلی:",
+                            error
+                        );
+
+                    });
+
+
+                // =========================
+                // انتخاب Main
+                // =========================
+
+                mainCategory.addEventListener(
+                    "change",
+                    function() {
+
+
+                        const mainCategoryId =
+                            this.value;
+
+
+                        // پاک کردن Sub
+
+                        subCategory.innerHTML =
+                            '<option value="">انتخاب گروه فرعی</option>';
+
+
+                        // پاک کردن Final
+
+                        finalCategory.innerHTML =
+                            '<option value="">انتخاب گروه نهایی</option>';
+
+
+                        // اگر Main انتخاب نشده
+
+                        if (mainCategoryId === "") {
+
+                            selectedCategory.value =
+                                "";
+
+                            return;
+
+                        }
+
+
+                        /*
+                         * اگر فقط Main انتخاب شده باشد،
+                         * خود Main ذخیره می‌شود.
+                         */
+
+                        selectedCategory.value =
+                            mainCategoryId;
+
+
+                        // =========================
+                        // دریافت Sub
+                        // =========================
+
+                        fetch(
+                            `/Admin/Catgory/GetCatgories?parentid=${encodeURIComponent(mainCategoryId)}`
+                        )
+
+                            .then(response => {
+
+                                if (!response.ok) {
+
+                                    throw new Error(
+                                        "خطا در دریافت دسته بندی فرعی"
+                                    );
+
+                                }
+
+                                return response.json();
+
+                            })
+
+                            .then(data => {
+
+                                data.forEach(item => {
+
+                                    const option =
+                                        document.createElement("option");
+
+
+                                    option.value =
+                                        item.id;
+
+
+                                    option.textContent =
+                                        item.tittle;
+
+
+                                    subCategory.appendChild(
+                                        option
+                                    );
+
+                                });
+
+                            })
+
+                            .catch(error => {
+
+                                console.error(
+                                    "خطا:",
+                                    error
+                                );
+
+                            });
+
+                    }
+                );
+
+
+                // =========================
+                // انتخاب Sub
+                // =========================
+
+                subCategory.addEventListener(
+                    "change",
+                    function() {
+
+
+                        const subCategoryId =
+                            this.value;
+
+
+                        // پاک کردن Final
+
+                        finalCategory.innerHTML =
+                            '<option value="">انتخاب گروه نهایی</option>';
+
+
+                        // اگر Sub خالی شد
+                        // Main ذخیره شود
+
+                        if (subCategoryId === "") {
+
+                            selectedCategory.value =
+                                mainCategory.value;
+
+                            return;
+
+                        }
+
+
+                        /*
+                         * اگر Main + Sub انتخاب شده باشند،
+                         * Sub ذخیره می‌شود.
+                         */
+
+                        selectedCategory.value =
+                            subCategoryId;
+
+
+                        // =========================
+                        // دریافت Final
+                        // =========================
+
+                        fetch(
+                            `/Admin/Catgory/GetCatgories?parentid=${encodeURIComponent(subCategoryId)}`
+                        )
+
+                            .then(response => {
+
+                                if (!response.ok) {
+
+                                    throw new Error(
+                                        "خطا در دریافت دسته بندی نهایی"
+                                    );
+
+                                }
+
+                                return response.json();
+
+                            })
+
+                            .then(data => {
+
+                                data.forEach(item => {
+
+                                    const option =
+                                        document.createElement("option");
+
+
+                                    option.value =
+                                        item.id;
+
+
+                                    option.textContent =
+                                        item.tittle;
+
+
+                                    finalCategory.appendChild(
+                                        option
+                                    );
+
+                                });
+
+                            })
+
+                            .catch(error => {
+
+                                console.error(
+                                    "خطا:",
+                                    error
+                                );
+
+                            });
+
+                    }
+                );
+
+
+                // =========================
+                // انتخاب Final
+                // =========================
+
+                finalCategory.addEventListener(
+                    "change",
+                    function() {
+
+
+                        const finalCategoryId =
+                            this.value;
+
+
+                        if (finalCategoryId !== "") {
+
+                            /*
+                             * اگر Final انتخاب شد،
+                             * Final ذخیره می‌شود.
+                             */
+
+                            selectedCategory.value =
+                                finalCategoryId;
+
+                        }
+                        else {
+
+                            /*
+                             * اگر Final خالی شد،
+                             * Sub ذخیره می‌شود.
+                             */
+
+                            selectedCategory.value =
+                                subCategory.value;
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+   
+
+}

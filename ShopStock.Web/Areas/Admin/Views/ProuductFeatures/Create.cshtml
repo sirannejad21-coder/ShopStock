@@ -1,0 +1,49 @@
+@model ShopStock.Domain.Models.Prouducts.ProuductFeature
+
+@{
+    ViewData["Title"] = "افزودن ویژگی";
+}
+
+<h1>افزودن ویژگی</h1>
+
+<h4>ویژگی های محصول</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProuductId" />
+
+
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+      
+
+    
+
+  
+
+    
+            <div class="form-group">
+                <button type="submit"  class="btn btn-primary">
+
+                    ثبت
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index"  asp-route-id="@Model.ProuductId">بازگشت به لیست ویژگی</a>
+</div>

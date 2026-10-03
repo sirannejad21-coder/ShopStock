@@ -1,0 +1,491 @@
+﻿@using ShopStock.Domain.ViewModels.Common
+
+@model AdminFilterUserViewModel
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-1">مدیریت کاربران</h4>
+            <p class="text-muted mb-0">
+                مدیریت اطلاعات و حساب‌های کاربران
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="Users"
+           asp-action="Create"
+           class="btn btn-primary">
+
+            <i class="bx bx-plus me-1"></i>
+
+            افزودن کاربر
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Users"
+                  asp-action="Index"
+                  method="get">
+
+                <div class="row g-3 align-items-end">
+
+                    <form asp-area="Admin"
+                          asp-controller="Users"
+                          asp-action="Index"
+                          method="get">
+
+                        <div class="row g-3">
+                            <input asp-for="PageId"
+                                   class="form-control"
+                                   type="hidden"
+                                   placeholder="نام کاربر..." />
+                            <!-- FirstName -->
+                            <div class="col-md-3">
+
+                                <label asp-for="FirstName" class="form-label">
+                                    نام
+                                </label>
+
+                                <input asp-for="FirstName"
+                                       class="form-control"
+                                       placeholder="نام کاربر..." />
+
+                            </div>
+
+
+                            <!-- LastName -->
+                            <div class="col-md-3">
+
+                                <label asp-for="LastName" class="form-label">
+                                    نام خانوادگی
+                                </label>
+
+                                <input asp-for="LastName"
+                                       class="form-control"
+                                       placeholder="نام خانوادگی..." />
+
+                            </div>
+
+
+                            <!-- Email -->
+                            <div class="col-md-3">
+
+                                <label asp-for="Email" class="form-label">
+                                    ایمیل
+                                </label>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="ایمیل..." />
+
+                            </div>
+
+
+                            <!-- Mobile -->
+                            <div class="col-md-3">
+
+                                <label asp-for="Mobile" class="form-label">
+                                    شماره موبایل
+                                </label>
+
+                                <input asp-for="Mobile"
+                                       class="form-control"
+                                       placeholder="0912..." />
+
+                            </div>
+
+
+                            <!-- Delete Status -->
+                            <div class="col-md-3">
+
+                                <label asp-for="DeleteStutus" class="form-label">
+                                    وضعیت حذف
+                                </label>
+
+                                <select asp-for="DeleteStutus"
+                                        class="form-select">
+
+                                    <option value="All">
+                                        همه
+                                    </option>
+
+                                    <option value="NotDelete">
+                                        حذف نشده
+                                    </option>
+
+                                    <option value="Delete">
+                                        حذف شده
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- Buttons -->
+                            <div class="col-md-3 d-flex align-items-end">
+
+                                <button type="submit"
+                                        class="btn btn-primary me-2">
+
+                                    <i class="bx bx-search me-1"></i>
+                                    جستجو
+
+                                </button>
+
+                                <a asp-area="Admin"
+                                   asp-controller="Users"
+                                   asp-action="Index"
+                                   class="btn btn-outline-secondary">
+
+                                    پاک کردن
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+                            وضعیت
+                        </label>
+
+                        <select name="status"
+                                class="form-select">
+
+                            <option value="">
+                                همه
+                            </option>
+
+                            <option value="true">
+                                فعال
+                            </option>
+
+                            <option value="false">
+                                غیرفعال
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            <i class="bx bx-search me-1"></i>
+
+                            جستجو
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Users Table -->
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+                    لیست کاربران
+                </h5>
+
+                <span class="badge bg-label-primary">
+                    تعداد: @Model.Entities.Count
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive text-nowrap">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            کاربر
+                        </th>
+
+                        <th>
+                            نام کاربری
+                        </th>
+
+                        <th>
+                            ایمیل
+                        </th>
+
+                        <th>
+                            موبایل
+                        </th>
+
+                        <th>
+                            کد ملی
+                        </th>
+
+                        <th>
+                            وضعیت
+                        </th>
+
+                        <th>
+                            عملیات
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+         
+                <tbody class="table-border-bottom-0">
+
+                    @if (Model.Entities != null && Model.Entities.Any())
+                    {
+                        foreach (var user in Model.Entities)
+                        {
+                            <tr>
+
+                                <!-- User -->
+                                <td>
+
+                                    <div class="d-flex align-items-center">
+
+                                        @if (!string.IsNullOrEmpty(user.Avatar))
+                                        {
+                                            <img src="~/Avatar/@user.Avatar"
+                                                 class="rounded-circle me-3"
+                                                 style="width:40px;height:40px;object-fit:cover;"
+                                                 alt="Avatar" />
+                                        }
+                                        else
+                                        {
+                                            <div class="avatar avatar-sm me-3">
+
+                                                <span class="avatar-initial rounded-circle bg-label-primary">
+                                                    @(string.IsNullOrEmpty(user.FirstName)
+                                                        ? "؟"
+                                                        : user.FirstName.Substring(0, 1))
+                                                </span>
+
+                                            </div>
+                                        }
+
+                                        <div>
+
+                                            <strong>
+                                                @user.FirstName @user.LastName
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Username -->
+                                <td>
+
+                                    <span class="fw-semibold">
+                                        @user.UserName
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Email -->
+                                <td>
+
+                                    <span>
+                                        @user.Email
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Mobile -->
+                                <td>
+
+                                    @if (!string.IsNullOrEmpty(user.Mobile))
+                                    {
+                                        @user.Mobile
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            ثبت نشده
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- National Code -->
+                                <td>
+
+                                    @if (!string.IsNullOrEmpty(user.NationalCode))
+                                    {
+                                        @user.NationalCode
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            ثبت نشده
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Status -->
+                                <td>
+
+                                    @if (user.IsActive)
+                                    {
+                                        <span class="badge bg-label-success">
+                                            فعال
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-label-danger">
+                                            غیرفعال
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Actions -->
+                                <td>
+
+                                    <div class="dropdown">
+
+                                        <button type="button"
+                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+
+                                        </button>
+                          
+
+                                        <div class="dropdown-menu">
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="Users"
+                                               asp-action="Edit"
+                                               asp-route-id="@user.Id">
+
+                                                <i class="bx bx-edit-alt me-1"></i>
+
+                                                ویرایش
+
+                                            </a>
+
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="Users"
+                                               asp-action="Details"
+                                               asp-route-username="@user.UserName">
+
+                                                <i class="bx bx-show me-1"></i>
+
+                                                مشاهده
+
+                                            </a>
+
+
+                                            <div class="dropdown-divider"></div>
+
+
+                                            <a class="dropdown-item text-danger"
+                                               asp-area="Admin"
+                                               asp-controller="Users"
+                                               asp-action="Delete"
+                                               asp-route-id="@user.Id">
+
+                                                <i class="bx bx-trash me-1"></i>
+                                                حذف
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center py-5">
+
+                                <div class="text-muted">
+
+                                    <i class="bx bx-user-x fs-1 mb-2"></i>
+
+                                    <p class="mb-0">
+                                        کاربری پیدا نشد
+                                    </p>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+            <hr />
+
+            <partial name="_AdminPagination"  model="@Model.GetCurrent()"></partial>
+
+        </div>
+
+    </div>
+  
+</div>
+

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <partial name= "_MetaTags" ></partial>
+    <title>فروشکاه استوک | @ViewBag.Tittle</title>
+  <partial name="_StyleRefrense" />
+        @RenderSection("Header", false)
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+  <partial name="_Header" />
+         
+        <main class="page-content">
+         @RenderBody()
+        </main>
+        <!-- end of page-content -->
+     <partial name="_Footer" />
+    </div>
+
+
+    <partial name="_ScriptRefrences" />
+    @RenderSection("Scripts",false)
+
+
+        <div class="remodal remodal-lg" data-remodal-id="quick-view-modal"
+             data-remodal-options="hashTracking: false" id="DescProuduct">
+        
+        </div>
+
+        <script>
+            function ShowDescModal(id){
+
+
+              
+                    fetch('/Prouduct/ShowProuductDesc?id=' + id)
+                        .then(response => response.text())
+                        .then(data => {
+
+                            document.getElementById('DescProuduct').innerHTML = data;
+
+                            const inst = $('[data-remodal-id="quick-view-modal"]').remodal();
+
+                            inst.open();
+
+                        })
+                        .catch(error => {
+
+                            console.error(error);
+
+                        });
+
+
+
+            }
+
+
+
+        </script>
+
+     
+</body>
+
+</html>
+

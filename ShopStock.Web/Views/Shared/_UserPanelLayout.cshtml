@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_EshopLayout";
+}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-xl-3 col-lg-4 col-md-5 mb-md-0 mb-4">
+            <a href="https://toplearn.com/c/6268" target="_blank">
+                <img class="img-thumbnail m-2" src="https://toplearn.com/img/course/%D8%A8%D9%88%D8%AA_%DA%A9%D9%85%D9%BE_asp.net_core.jpg" />
+            </a>
+            @await Component.InvokeAsync("UserPanel")
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+         
+            @RenderSection("Scripts", required: false)
+
+            @await Component.InvokeAsync("IsUserPanel")
+            @RenderBody()
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+@model IEnumerable< ShopStock.Domain.Models.Prouducts.ProuductFeature>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@ViewBag.feature</h1>
+
+<p>
+    <a asp-action="Create"  asp-route-id="@ViewBag.Id">افزودن ویژگی جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+       
+            <th>
+             عنوان ویژگی
+            </th>
+            <th>
+               مقدار
+            </th>
+            
+       
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+     
+            <td>
+                    @Html.DisplayFor(model => item.Name)
+            </td>
+            <td>
+      @Html.DisplayFor(model => item.Value)
+              
+            </td>
+  
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+      
+                <a asp-action="Delete" asp-route-id="@item.Id">پاک کردن</a>
+            </td>
+        </tr>
+
+}
+    </tbody>
+</table>
+<a asp-controller="Prouduct" asp-action="Index" >بازگشت به لیست</a>

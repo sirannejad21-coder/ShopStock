@@ -1,0 +1,160 @@
+﻿
+@using ShopStock.Domain.ViewModels.Account
+
+@model ProfileViewModel
+
+<div class="auth-box ui-box">
+
+    <div style="display: flex; align-items: flex-start; gap: 30px;">
+
+        <!-- فرم -->
+        <div style="flex: 1;">
+
+        
+       
+            <form asp-area="Userpanel" asp-action="Index"
+                  method="post"
+                  class="auth-form" enctype="multipart/form-data">
+
+
+                @if (TempData["editprofile"] != null)
+                {
+                    <div class="alert-dark">
+
+                        ویرایش موفقیت آمیز
+                    </div>
+
+                }
+                <input type="hidden" asp-for="Avatar" />
+                @Html.AntiForgeryToken()
+
+                <div class="form-element-row mb-3">
+
+                    <input asp-for="FirstName"
+                           type="text"
+                           class="form-control"
+                           placeholder="نام را وارد کنید"
+                           autocomplete="off" />
+
+                    <span asp-validation-for="FirstName"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="form-element-row mb-3">
+
+                    <label asp-for="LastName" class="form-label">
+                    </label>
+
+                    <input asp-for="LastName"
+                           type="text"
+                           class="form-control"
+                           placeholder="نام خانوادگی را وارد کنید"
+                           autocomplete="off" />
+
+                    <span asp-validation-for="LastName"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="form-element-row mb-3">
+
+                    <label asp-for="Mobile" class="form-label">
+                    </label>
+
+                    <input asp-for="Mobile"
+                           type="text"
+                           class="form-control"
+                           placeholder="شماره موبایل را وارد کنید"
+                           autocomplete="off" />
+
+                    <span asp-validation-for="Mobile"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="form-element-row mb-3">
+
+                    <label asp-for="NationalCode" class="form-label">
+                    </label>
+
+                    <input asp-for="NationalCode"
+                           type="text"
+                           class="form-control"
+                           placeholder="شماره ملی را وارد کنید"
+                           autocomplete="off" />
+
+                    <span asp-validation-for="NationalCode"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div asp-validation-summary="All"
+                     class="text-danger mb-3">
+                </div>
+                <div style="width: 180px; text-align: center;">
+
+                    <h5>تصویر کاربر</h5>
+
+                    <input type="file"
+                           name="formFile"
+                           id="avatarInput"
+                           accept="image/*" />
+
+                    @if (ViewBag.imageisvalid == false)
+                        {
+                            <div  class="alert-danger">
+
+                                تصویر معتبر نمیباشد
+                            </div>
+                        }
+
+                    <br />
+
+                    <img id="avatarPreview"
+                         src="/Avatar/@Model.Avatar"
+                         class="img-thumbnail mt-2"
+                         style="width: 150px; height: 150px; object-fit: cover;" />
+
+                </div>
+
+                <div class="form-element-row mb-3">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        تغییر اطلاعات پروفایل
+                    </button>
+
+                </div>
+
+          
+
+            </form>
+
+        </div>
+
+
+        <!-- تصویر کاربر -->
+     
+
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("avatarInput").addEventListener("change", function (event) {
+
+        const file = event.target.files[0];
+
+        if (file) {
+            const preview = document.getElementById("avatarPreview");
+
+            preview.src = URL.createObjectURL(file);
+        }
+
+    });
+</script>

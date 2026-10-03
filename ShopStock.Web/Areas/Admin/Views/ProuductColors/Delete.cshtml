@@ -1,0 +1,70 @@
+
+@model ShopStock.Domain.Models.Prouducts.ProuductColor
+
+@{
+    ViewData["Title"] = "حذف رنگ محصول";
+}
+
+<h1>حذف رنگ محصول</h1>
+
+<h3>آیا از حذف این رنگ اطمینان دارید؟</h3>
+
+<div>
+    <h4>رنگ محصول</h4>
+    <hr />
+
+    <input type="hidden" asp-for="ProuductId" />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDefult)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsDefult)
+        </dd>
+    </dl>
+
+
+
+
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+
+        <input type="submit"
+               value="حذف رنگ"
+               class="btn btn-danger" />
+
+        |
+
+        <a asp-action="Index">بازگشت به لیست رنگ‌ها</a>
+    </form>
+</div>
+

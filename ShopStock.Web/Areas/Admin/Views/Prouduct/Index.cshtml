@@ -1,0 +1,324 @@
+﻿@using ShopStock.Domain.ViewModels.Prouduct
+
+@model AdminFilterProuductViewModdel
+
+@{
+    ViewData["Title"] = "مدیریت محصولات";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-1">مدیریت محصولات</h4>
+            <p class="text-muted mb-0">
+                مدیریت اطلاعات محصولات
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="Prouduct"
+           asp-action="Create"
+           class="btn btn-primary">
+
+            <i class="bx bx-plus me-1"></i>
+            افزودن محصول
+
+        </a>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Prouduct"
+                  asp-action="Index"
+                  method="get">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Title" class="form-label">
+                            عنوان محصول
+                        </label>
+
+                        <input asp-for="Title"
+                               class="form-control"
+                               placeholder="عنوان محصول..." />
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            <i class="bx bx-search me-1"></i>
+                            جستجو
+
+                        </button>
+
+                        <a asp-area="Admin"
+                           asp-controller="Prouduct"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+
+                            پاک کردن
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Products Table -->
+    <div class="card">
+
+        <div class="card-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+                    لیست محصولات
+                </h5>
+
+                <span class="badge bg-label-primary">
+                    تعداد: @Model.Entities.Count
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive text-nowrap">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>محصول</th>
+                        <th>دسته‌بندی</th>
+                        <th>قیمت</th>
+                        <th>تخفیف</th>
+                        <th>قیمت با تخفیف</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody class="table-border-bottom-0">
+
+                    @if (Model.Entities != null && Model.Entities.Any())
+                    {
+                        foreach (var product in Model.Entities)
+                        {
+                            <tr>
+
+                                <!-- Product -->
+                                <td>
+                                    <div class="d-flex align-items-center">
+
+                                        @if (!string.IsNullOrEmpty(product.ImageName))
+                                        {
+                                            <img src="~/ProuductImages/@product.ImageName"
+                                                 class="rounded me-3"
+                                                 style="width:50px;height:50px;object-fit:cover;"
+                                                 alt="Product" />
+                                        }
+                                        else
+                                        {
+                                            <div class="avatar avatar-sm me-3">
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    ?
+                                                </span>
+                                            </div>
+                                        }
+
+                                        <div>
+                                            <strong>
+                                                @product.Title
+                                            </strong>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+
+                                <!-- Category -->
+                                <td>
+                                    @product.CatgoryName
+                                </td>
+
+
+                                <!-- Price -->
+                                <td>
+                                    @product.Price.ToString("N0") تومان
+                                </td>
+
+
+                                <!-- Discount -->
+                                <td>
+                                    @product.DiscountPercent %
+                                </td>
+
+
+                                <!-- Price With Discount -->
+                                <td>
+                                    @product.PriceWithDiscount.ToString("N0") تومان
+                                </td>
+
+
+                                <!-- Status -->
+                                <td>
+                                    @if (product.Active)
+                                    {
+                                        <span class="badge bg-label-success">
+                                            فعال
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-label-danger">
+                                            غیرفعال
+                                        </span>
+                                    }
+                                </td>
+
+
+                                <!-- Actions -->
+                                <td>
+
+                                    <div class="dropdown">
+
+                                        <button type="button"
+                                                class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+
+                                        </button>
+
+                                        <div class="dropdown-menu">
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="Prouduct"
+                                               asp-action="Edit"
+                                               asp-route-id="@product.Id">
+
+                                                <i class="bx bx-edit-alt me-1"></i>
+                                                ویرایش
+
+                                            </a>
+
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="Prouduct"
+                                               asp-action="Details"
+                                               asp-route-id="@product.Id">
+
+                                                <i class="bx bx-show me-1"></i>
+                                                مشاهده
+
+                                            </a>
+
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="Prouductcolors"
+                                               asp-action="Index"
+                                               asp-route-id="@product.Id">
+
+                                                <i class="bx bx-palette me-1"></i>
+                                                مدیریت رنگ ها
+
+                                            </a>
+
+
+                                            <a class="dropdown-item text-danger"
+                                               asp-area="Admin"
+                                               asp-controller="Prouduct"
+                                               asp-action="Delete"
+                                               asp-route-id="@product.Id">
+
+                                                <i class="bx bx-trash me-1"></i>
+                                                حذف
+
+                                            </a>
+
+
+                                            <a class="dropdown-item"
+                                               asp-area="Admin"
+                                               asp-controller="ProuductFeatures"
+                                               asp-action="Index"
+                                               asp-route-id="@product.Id">
+
+                                                <i class="bx bx-list-check me-1"></i>
+                                                ویژگی
+
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+
+                                <div class="text-muted">
+
+                                    <i class="bx bx-package fs-1 mb-2"></i>
+
+                                    <p class="mb-0">
+                                        محصولی پیدا نشد
+                                    </p>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+            <hr />
+
+            <partial name="_AdminPagination"
+                     model="@Model.GetCurrent()">
+            </partial>
+
+        </div>
+
+    </div>
+
+</div>

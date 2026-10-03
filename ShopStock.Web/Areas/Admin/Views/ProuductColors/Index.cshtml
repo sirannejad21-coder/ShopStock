@@ -1,0 +1,78 @@
+
+@model IEnumerable<ShopStock.Domain.Models.Prouducts.ProuductColor>
+
+@{
+    ViewData["Title"] = "لیست رنگ‌های محصول";
+}
+
+<h1>لیست رنگ‌های محصول</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.Id">افزودن رنگ جدید</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+      
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDefult)
+            </th>
+        
+         
+            <th>عملیات</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+           
+
+                <td>
+                    @Html.DisplayFor(model => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.Code)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Quantity)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.IsDefult)
+                </td>
+
+  
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="IsDefult" asp-route-id="@item.Id">پیش فرض</a> |
+
+                   
+
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

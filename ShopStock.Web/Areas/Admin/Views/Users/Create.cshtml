@@ -1,0 +1,584 @@
+﻿```cshtml
+@using ShopStock.Domain.ViewModels.User
+
+@model AdminCreateViewModel
+
+@{
+    ViewData["Title"] = "افزودن کاربر";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-1">
+                افزودن کاربر
+            </h4>
+
+            <p class="text-muted mb-0">
+                ایجاد حساب کاربری جدید
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="User"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+
+            <i class="bx bx-arrow-back me-1"></i>
+            بازگشت به کاربران
+
+        </a>
+
+    </div>
+
+
+  <form asp-area="Admin"
+      asp-controller="Users"
+      asp-action="Create"
+      method="post"
+      enctype="multipart/form-data">
+
+        <div class="row">
+
+            <!-- Main Form -->
+            <div class="col-xl-8 col-lg-8 col-md-12">
+
+                <div class="card mb-4">
+
+                    <div class="card-header">
+
+                        <h5 class="mb-0">
+                            اطلاعات کاربر
+                        </h5>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                    <div asp-validation-summary="All"
+     class="alert alert-danger mb-4">
+</div>
+
+
+                        <!-- First Name / Last Name -->
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="FirstName"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="FirstName"
+                                       class="form-control"
+                                       placeholder="نام را وارد کنید"
+                                       autocomplete="off" />
+
+                                <span asp-validation-for="FirstName"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="LastName"
+                                       class="form-label">
+                                </label>
+
+                                <input asp-for="LastName"
+                                       class="form-control"
+                                       placeholder="نام خانوادگی را وارد کنید"
+                                       autocomplete="off" />
+
+                                <span asp-validation-for="LastName"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Username / Email -->
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="UserName"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-user"></i>
+                                    </span>
+
+                                    <input asp-for="UserName"
+                                           class="form-control"
+                                           placeholder="نام کاربری"
+                                           autocomplete="off" />
+
+                                </div>
+
+                                <span asp-validation-for="UserName"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Email"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-envelope"></i>
+                                    </span>
+
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="example@gmail.com"
+                                           autocomplete="off" />
+
+                                </div>
+
+                                <span asp-validation-for="Email"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Mobile / National Code -->
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Mobile"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-mobile"></i>
+                                    </span>
+
+                                    <input asp-for="Mobile"
+                                           class="form-control"
+                                           placeholder="09123456789"
+                                           maxlength="11"
+                                           autocomplete="off" />
+
+                                </div>
+
+                                <span asp-validation-for="Mobile"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="NationalCode"
+                                       class="form-label">
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bx bx-id-card"></i>
+                                    </span>
+
+                                    <input asp-for="NationalCode"
+                                           class="form-control"
+                                           placeholder="کد ملی ۱۰ رقمی"
+                                           maxlength="10"
+                                           autocomplete="off" />
+
+                                </div>
+
+                                <span asp-validation-for="NationalCode"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="mb-4">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text">
+                                    <i class="bx bx-lock"></i>
+                                </span>
+
+                                <input asp-for="Password"
+                                       id="password"
+                                       type="password"
+                                       class="form-control"
+                                       placeholder="رمز عبور"
+                                       autocomplete="new-password" />
+
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        id="togglePassword">
+
+                                    <i class="bx bx-show"></i>
+
+                                </button>
+
+                            </div>
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                            <div class="form-text">
+                                رمز عبور حداقل باید ۶ کاراکتر باشد.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Avatar -->
+                        <div class="mb-4">
+
+                            <label asp-for="AvatarFile"
+                                   class="form-label">
+                                تصویر کاربر
+                            </label>
+
+
+                            <div class="d-flex align-items-center gap-4">
+
+                                <div>
+
+                                    <img id="avatarPreview"
+                                         src="~/Avatar/@Model.Avatar"
+                                         alt="Avatar"
+                                         class="rounded-circle border"
+                                         style="width:120px;height:120px;object-fit:cover;" />
+
+                                </div>
+
+
+                                <div class="flex-grow-1">
+
+                                    <input asp-for="AvatarFile"
+                                           type="file"
+                                           id="avatarInput"
+                                           class="form-control"
+                                           accept="image/png,image/jpeg,image/jpg,image/webp" />
+
+                                    <span asp-validation-for="AvatarFile"
+                                          class="text-danger">
+                                    </span>
+
+                                    <div class="form-text">
+                                        فرمت‌های مجاز: JPG، JPEG، PNG، WEBP
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Active -->
+                        <div class="mb-4">
+
+                            <div class="form-check form-switch">
+
+                                <input asp-for="IsActive"
+                                       class="form-check-input"
+                                       type="checkbox" />
+
+                                <label asp-for="IsActive"
+                                       class="form-check-label">
+
+                                </label>
+
+                            </div>
+               <hr />
+
+<h5 class="mb-3">نقش‌ها</h5>
+
+@if (Model.Roles != null && Model.Roles.Any())
+{
+    <div class="row">
+
+        @foreach (var role in Model.Roles)
+        {
+            <div class="col-md-6 mb-2">
+
+                <div class="form-check">
+
+                    <input type="checkbox"
+                           class="form-check-input"
+                           name="SelectedRoles"
+                           value="@role.Id"
+                           id="role_@role.Id" />
+
+                    <label class="form-check-label"
+                           for="role_@role.Id">
+
+                        @role.RoleName
+
+                    </label>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        هیچ نقشی برای انتخاب وجود ندارد.
+    </div>
+}
+
+                            <small class="text-muted">
+                                در صورت فعال بودن، کاربر می‌تواند وارد حساب خود شود.
+                            </small>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+
+                                <i class="bx bx-user-plus me-1"></i>
+
+                                ایجاد کاربر
+
+                            </button>
+
+
+                            <a asp-area="Admin"
+                               asp-controller="User"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                انصراف
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Side Information -->
+            <div class="col-xl-4 col-lg-4 col-md-12">
+
+                <!-- Avatar Card -->
+                <div class="card mb-4">
+
+                    <div class="card-body text-center">
+
+                        <div class="avatar avatar-xl mx-auto mb-3">
+
+                            <span class="avatar-initial rounded-circle bg-label-primary"
+                                  style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;">
+
+                                <i class="bx bx-user fs-1"></i>
+
+                            </span>
+
+                        </div>
+
+                        <h5 class="mb-1">
+                            ایجاد حساب کاربری
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            اطلاعات کاربر را با دقت وارد کنید.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Information -->
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <div class="avatar me-3">
+
+                                <span class="avatar-initial rounded bg-label-info">
+
+                                    <i class="bx bx-info-circle"></i>
+
+                                </span>
+
+                            </div>
+
+                            <h5 class="mb-0">
+                                نکات مهم
+                            </h5>
+
+                        </div>
+
+
+                        <ul class="ps-3 mb-0">
+
+                            <li class="mb-2">
+                                نام کاربری حداقل ۳ کاراکتر باشد.
+                            </li>
+
+                            <li class="mb-2">
+                                ایمیل باید معتبر باشد.
+                            </li>
+
+                            <li class="mb-2">
+                                شماره موبایل باید با 09 شروع شود.
+                            </li>
+
+                            <li class="mb-2">
+                                کد ملی باید دقیقاً ۱۰ رقم باشد.
+                            </li>
+
+                            <li class="mb-2">
+                                رمز عبور حداقل ۶ کاراکتر باشد.
+                            </li>
+
+                            <li>
+                                تصویر کاربر اختیاری است.
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        // Password Show / Hide
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const password =
+            document.getElementById("password");
+
+        if (togglePassword && password) {
+
+            togglePassword.addEventListener("click", function() {
+
+                const icon =
+                    this.querySelector("i");
+
+                if (password.type === "password") {
+
+                    password.type = "text";
+
+                    icon.classList.remove("bx-show");
+
+                    icon.classList.add("bx-hide");
+
+                }
+                else {
+
+                    password.type = "password";
+
+                    icon.classList.remove("bx-hide");
+
+                    icon.classList.add("bx-show");
+
+                }
+
+            });
+
+        }
+
+
+        // Avatar Preview
+        const avatarInput =
+            document.getElementById("avatarInput");
+
+        const avatarPreview =
+            document.getElementById("avatarPreview");
+
+
+        if (avatarInput && avatarPreview) {
+
+            avatarInput.addEventListener("change", function(event) {
+
+                const file =
+                    event.target.files[0];
+
+                if (!file)
+                    return;
+
+
+                if (!file.type.startsWith("image/")) {
+
+                    alert("لطفاً یک فایل تصویری انتخاب کنید.");
+
+                    avatarInput.value = "";
+
+                    return;
+                }
+
+
+                avatarPreview.src =
+                    URL.createObjectURL(file);
+
+            });
+
+        }
+
+    </script>
+}
+```

@@ -1,0 +1,74 @@
+﻿
+
+
+@{
+    ViewData["Title"] = "فعال سازی ایمیل";
+}
+
+
+
+@if (ViewBag.activecode == true)
+{
+    <div class="container d-flex justify-content-center align-items-center"
+         style="min-height: 70vh;">
+
+        <div class="card shadow-sm text-center p-5"
+             style="max-width: 500px; width: 100%; border-radius: 15px;">
+
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success"
+                   style="font-size: 60px;"></i>
+            </div>
+
+            <h3 class="mb-3">
+                خوش آمدید 🌹
+            </h3>
+
+            <p class="text-muted mb-2">
+                ورود شما با موفقیت انجام شد.
+            </p>
+
+            <p class="mb-4">
+                کد تأیید به ایمیل  ارسال شد.
+                <br />
+                لطفاً ایمیل خود را بررسی کنید.
+            </p>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-primary">
+                بازگشت به فروشگاه
+            </a>
+
+        </div>
+
+    </div>
+
+}
+else
+{
+    <div class="container d-flex justify-content-center align-items-center"
+         style="min-height: 70vh;">
+        <div class="card shadow-sm text-center p-5"
+             style="max-width: 500px; width: 100%; border-radius: 15px;">
+            <div class="mb-4">
+                <i class="bi bi-x-circle-fill text-danger"
+                   style="font-size: 60px;"></i>
+            </div>
+            <h3 class="mb-3">
+                خطا در فعال‌سازی حساب کاربری
+            </h3>
+            <p class="text-muted mb-2">
+                متأسفانه، فعال‌سازی حساب کاربری شما با مشکل مواجه شد.
+            </p>
+            <p class="mb-4">
+                لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.
+            </p>
+            <a asp-controller="Account"
+               asp-action="Register"
+               class="btn btn-primary">
+                بازگشت به ثبت‌نام
+            </a>
+        </div>
+    </div>
+}

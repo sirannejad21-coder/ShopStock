@@ -1,0 +1,316 @@
+﻿```cshtml
+@using ShopStock.Domain.Models.Roles
+@model Role
+
+@{
+    ViewData["Title"] = "ویرایش نقش";
+}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">ویرایش نقش</h5>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Role"
+                  asp-action="Edit"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-4">
+
+                    <label asp-for="RoleName" class="form-label">
+                        نام نقش
+                    </label>
+
+                    <input asp-for="RoleName"
+                           class="form-control"
+                           placeholder="مثلاً مدیر سیستم" />
+
+                    <span asp-validation-for="RoleName"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        دسترسی‌های نقش
+                    </label>
+
+                    <div class="border rounded p-3">
+
+                        @if (ViewBag.permission != null)
+                        {
+                            foreach (var parent in ViewBag.permission)
+                            {
+                                if (parent.ParentId == null)
+                                {
+                                    <div class="permission-item mb-3">
+
+                                        <!-- والد -->
+
+                                        <div class="form-check">
+
+                                            <input class="form-check-input permission-checkbox"
+                                                   type="checkbox"
+                                                   name="PermissionSelectedId"
+                                                   value="@parent.Id"
+                                                   id="permission_@parent.Id"
+                                                   data-parent-id=""
+                                            @(Model.RolePermissions.Any(x => x.PermissionId == parent.Id) ? "checked" : "") />
+
+                                            <label class="form-check-label fw-bold"
+                                                   for="permission_@parent.Id">
+
+                                                @parent.DisplayName
+
+                                            </label>
+
+                                        </div>
+
+
+                                        <!-- فرزندان -->
+                                        @foreach (var child in ViewBag.permission)
+                                        {
+                                            if (child.ParentId == parent.Id)
+                                            {
+                                                <div class="ms-4 mt-2">
+
+                                                    <div class="form-check">
+
+                                                        <input class="form-check-input permission-checkbox"
+                                                               type="checkbox"
+                                                               name="PermissionSelectedId"
+                                                               value="@child.Id"
+                                                               id="permission_@child.Id"
+                                                               data-parent-id="@parent.Id"
+                                                        @(Model.RolePermissions.Any(x => x.PermissionId == child.Id) ? "checked" : "") />
+
+                                                        <label class="form-check-label"
+                                                               for="permission_@child.Id">
+
+                                                            @child.DisplayName
+
+                                                        </label>
+
+                                                    </div>
+
+
+                                                    <!-- زیرمجموعه -->
+                                                    @foreach (var subChild in ViewBag.permission)
+                                                    {
+                                                        if (subChild.ParentId == child.Id)
+                                                        {
+                                                            <div class="ms-4 mt-2">
+
+                                                                <div class="form-check">
+
+                                                                    <input class="form-check-input permission-checkbox"
+                                                                           type="checkbox"
+                                                                           name="PermissionSelectedId"
+                                                                           value="@subChild.Id"
+                                                                           id="permission_@subChild.Id"
+                                                                           data-parent-id="@child.Id"
+                                                                    @(Model.RolePermissions.Any(x => x.PermissionId == subChild.Id) ? "checked" : "") />
+
+                                                                    <label class="form-check-label"
+                                                                           for="permission_@subChild.Id">
+
+                                                                        @subChild.DisplayName
+
+                                                                    </label>
+
+                                                                </div>
+
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            }
+                                        }
+
+                                    </div>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted">
+                                هیچ دسترسی‌ای وجود ندارد.
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        ذخیره تغییرات
+                    </button>
+
+                    <a asp-area="Admin"
+                       asp-controller="Role"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const checkboxes =
+                document.querySelectorAll(".permission-checkbox");
+
+
+            checkboxes.forEach(function(checkbox) {
+
+                checkbox.addEventListener("change", function() {
+
+                    setChildren(
+                        this.value,
+                        this.checked
+                    );
+
+                    if (this.checked) {
+
+                        selectParents(this);
+
+                    }
+                    else {
+
+                        checkParent(this);
+
+                    }
+
+                });
+
+            });
+
+
+            function setChildren(parentId, checked) {
+
+                const children =
+                    document.querySelectorAll(
+                        '.permission-checkbox[data-parent-id="' + parentId + '"]'
+                    );
+
+                children.forEach(function(child) {
+
+                    child.checked = checked;
+
+                    setChildren(
+                        child.value,
+                        checked
+                    );
+
+                });
+
+            }
+
+
+            function selectParents(checkbox) {
+
+                const parentId =
+                    checkbox.getAttribute("data-parent-id");
+
+                if (!parentId) {
+                    return;
+                }
+
+                const parent =
+                    document.getElementById(
+                        "permission_" + parentId
+                    );
+
+                if (!parent) {
+                    return;
+                }
+
+                parent.checked = true;
+
+                selectParents(parent);
+
+            }
+
+
+            function checkParent(checkbox) {
+
+                const parentId =
+                    checkbox.getAttribute("data-parent-id");
+
+                if (!parentId) {
+                    return;
+                }
+
+                const parent =
+                    document.getElementById(
+                        "permission_" + parentId
+                    );
+
+                if (!parent) {
+                    return;
+                }
+
+                const children =
+                    document.querySelectorAll(
+                        '.permission-checkbox[data-parent-id="' + parentId + '"]'
+                    );
+
+                let hasCheckedChild = false;
+
+                children.forEach(function(child) {
+
+                    if (child.checked) {
+                        hasCheckedChild = true;
+                    }
+
+                });
+
+                if (!hasCheckedChild) {
+
+                    parent.checked = false;
+
+                    checkParent(parent);
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+}
+```

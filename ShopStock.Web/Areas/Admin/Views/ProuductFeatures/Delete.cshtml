@@ -1,0 +1,74 @@
+```cshtml
+@model ShopStock.Domain.Models.Prouducts.ProuductFeature
+
+@{
+    ViewData["Title"] = "حذف ویژگی";
+}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">حذف ویژگی محصول</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                آیا از حذف این ویژگی اطمینان دارید؟
+            </div>
+
+            <dl class="row">
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Value)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Value)
+                </dd>
+
+                <dt class="col-sm-3">
+                    تاریخ ساخت
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CreateDate)
+                </dd>
+
+            </dl>
+
+            <form asp-action="Delete" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <input type="hidden"
+                       asp-for="ProuductId" />
+
+                <button type="submit"
+                        class="btn btn-danger">
+                    حذف ویژگی
+                </button>
+
+                <a asp-action="Index"
+                   asp-route-id="@Model.ProuductId"
+                   class="btn btn-secondary">
+                    انصراف
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+```

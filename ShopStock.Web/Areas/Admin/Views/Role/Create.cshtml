@@ -1,0 +1,463 @@
+﻿@using ShopStock.Domain.ViewModels.Role
+@model AdminCreateRoleViewModel
+
+@{
+    ViewData["Title"] = "ایجاد نقش";
+}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                ایجاد نقش جدید
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Role"
+                  asp-action="Create"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- Role Name -->
+                <!-- ========================= -->
+
+                <div class="mb-4">
+
+                    <label asp-for="RoleName" class="form-label">
+                        نام نقش
+                    </label>
+
+                    <input asp-for="RoleName"
+                           class="form-control"
+                           placeholder="مثلاً مدیر سیستم" />
+
+                    <span asp-validation-for="RoleName"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- Permissions -->
+                <!-- ========================= -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-bold">
+                        دسترسی‌های نقش
+                    </label>
+
+                    <div class="border rounded p-3">
+
+                        @if (Model.Permissions != null &&
+                             Model.Permissions.Any())
+                        {
+                            var parentPermissions = Model.Permissions
+                                .Where(x => x.ParentId == null)
+                                .ToList();
+
+                            foreach (var parent in parentPermissions)
+                            {
+                                var isParentSelected =
+                                    Model.PermissionSelectedId != null &&
+                                    Model.PermissionSelectedId.Contains(parent.Id);
+
+                                <!-- ========================= -->
+                                <!-- Parent Permission -->
+                                <!-- ========================= -->
+
+                                <div class="permission-item mb-3">
+
+                                    <div class="form-check">
+
+                                        <input class="form-check-input permission-checkbox"
+                                               type="checkbox"
+                                               name="PermissionSelectedId"
+                                               value="@parent.Id"
+                                               id="permission_@parent.Id"
+                                               data-parent-id=""
+                                        @(isParentSelected ? "checked" : "") />
+
+                                        <label class="form-check-label fw-bold"
+                                               for="permission_@parent.Id">
+
+                                            @parent.DisplayName
+
+                                        </label>
+
+                                    </div>
+
+
+                                    @{
+                                        var children = Model.Permissions
+                                            .Where(x => x.ParentId == parent.Id)
+                                            .ToList();
+                                    }
+
+
+                                    @foreach (var child in children)
+                                    {
+                                        var isChildSelected =
+                                            Model.PermissionSelectedId != null &&
+                                            Model.PermissionSelectedId.Contains(child.Id);
+
+                                        <!-- ========================= -->
+                                        <!-- Child Permission -->
+                                        <!-- ========================= -->
+
+                                        <div class="ms-4 mt-2">
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input permission-checkbox"
+                                                       type="checkbox"
+                                                       name="PermissionSelectedId"
+                                                       value="@child.Id"
+                                                       id="permission_@child.Id"
+                                                       data-parent-id="@parent.Id"
+                                                @(isChildSelected ? "checked" : "") />
+
+                                                <label class="form-check-label"
+                                                       for="permission_@child.Id">
+
+                                                    @child.DisplayName
+
+                                                </label>
+
+                                            </div>
+
+
+                                            @{
+                                                var subChildren = Model.Permissions
+                                                    .Where(x => x.ParentId == child.Id)
+                                                    .ToList();
+                                            }
+
+
+                                            @foreach (var subChild in subChildren)
+                                            {
+                                                var isSubChildSelected =
+                                                    Model.PermissionSelectedId != null &&
+                                                    Model.PermissionSelectedId.Contains(subChild.Id);
+
+                                                <!-- ========================= -->
+                                                <!-- Sub Child Permission -->
+                                                <!-- ========================= -->
+
+                                                <div class="ms-4 mt-2">
+
+                                                    <div class="form-check">
+
+                                                        <input class="form-check-input permission-checkbox"
+                                                               type="checkbox"
+                                                               name="PermissionSelectedId"
+                                                               value="@subChild.Id"
+                                                               id="permission_@subChild.Id"
+                                                               data-parent-id="@child.Id"
+                                                        @(isSubChildSelected ? "checked" : "") />
+
+                                                        <label class="form-check-label"
+                                                               for="permission_@subChild.Id">
+
+                                                            @subChild.DisplayName
+
+                                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            }
+
+                                        </div>
+                                    }
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted">
+                                هیچ دسترسی‌ای وجود ندارد.
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- Buttons -->
+                <!-- ========================= -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        ذخیره
+
+                    </button>
+
+
+                    <a asp-area="Admin"
+                       asp-controller="Role"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+
+                        انصراف
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const checkboxes =
+                document.querySelectorAll(".permission-checkbox");
+
+
+            /*
+             * ==========================================
+             * وقتی روی هر Permission کلیک شد
+             * ==========================================
+             */
+
+            checkboxes.forEach(function(checkbox) {
+
+                checkbox.addEventListener("change", function() {
+
+                    const permissionId = this.value;
+
+
+                    /*
+                     * اگر این Permission انتخاب/برداشته شد،
+                     * تمام فرزندان آن هم تغییر کنند.
+                     */
+
+                    setChildren(
+                        permissionId,
+                        this.checked
+                    );
+
+
+                    /*
+                     * اگر Permission انتخاب شد،
+                     * تمام والدهای آن نیز انتخاب شوند.
+                     */
+
+                    if (this.checked) {
+
+                        selectParents(this);
+
+                    }
+                    else {
+
+                        /*
+                         * اگر Permission برداشته شد،
+                         * بررسی می‌کنیم آیا والدش هنوز
+                         * فرزند انتخاب‌شده دارد یا نه.
+                         */
+
+                        checkParent(this);
+
+                    }
+
+                });
+
+            });
+
+
+            /*
+             * ==========================================
+             * انتخاب / برداشتن تمام فرزندان
+             * ==========================================
+             */
+
+            function setChildren(parentId, checked) {
+
+                const children =
+                    document.querySelectorAll(
+                        '.permission-checkbox[data-parent-id="' + parentId + '"]'
+                    );
+
+
+                children.forEach(function(child) {
+
+                    child.checked = checked;
+
+
+                    /*
+                     * اگر این فرزند خودش فرزند دیگری دارد،
+                     * آن‌ها هم تغییر کنند.
+                     */
+
+                    setChildren(
+                        child.value,
+                        checked
+                    );
+
+                });
+
+            }
+
+
+            /*
+             * ==========================================
+             * انتخاب والدها
+             * ==========================================
+             */
+
+            function selectParents(checkbox) {
+
+                const parentId =
+                    checkbox.getAttribute("data-parent-id");
+
+
+                /*
+                 * اگر والد ندارد، تمام شده.
+                 */
+
+                if (!parentId) {
+                    return;
+                }
+
+
+                const parent =
+                    document.getElementById(
+                        "permission_" + parentId
+                    );
+
+
+                if (!parent) {
+                    return;
+                }
+
+
+                /*
+                 * والد را انتخاب کن.
+                 */
+
+                parent.checked = true;
+
+
+                /*
+                 * والد والد را هم انتخاب کن.
+                 */
+
+                selectParents(parent);
+
+            }
+
+
+            /*
+             * ==========================================
+             * بررسی والد هنگام برداشتن فرزند
+             * ==========================================
+             */
+
+            function checkParent(checkbox) {
+
+                const parentId =
+                    checkbox.getAttribute("data-parent-id");
+
+
+                /*
+                 * اگر والد ندارد، کاری لازم نیست.
+                 */
+
+                if (!parentId) {
+                    return;
+                }
+
+
+                const parent =
+                    document.getElementById(
+                        "permission_" + parentId
+                    );
+
+
+                if (!parent) {
+                    return;
+                }
+
+
+                /*
+                 * تمام فرزندان این والد را پیدا کن.
+                 */
+
+                const children =
+                    document.querySelectorAll(
+                        '.permission-checkbox[data-parent-id="' + parentId + '"]'
+                    );
+
+
+                /*
+                 * بررسی کن حداقل یک فرزند انتخاب شده باشد.
+                 */
+
+                let hasCheckedChild = false;
+
+
+                children.forEach(function(child) {
+
+                    if (child.checked) {
+                        hasCheckedChild = true;
+                    }
+
+                });
+
+
+                /*
+                 * اگر هیچ فرزندی انتخاب نیست،
+                 * خود والد هم برداشته شود.
+                 */
+
+                if (!hasCheckedChild) {
+
+                    parent.checked = false;
+
+
+                    /*
+                     * حالا والد بالاتر را هم بررسی کن.
+                     */
+
+                    checkParent(parent);
+
+                }
+
+            }
+
+        });
+
+    </script>
+
+}

@@ -1,0 +1,43 @@
+﻿@using ShopStock.Domain.ViewModels.Account
+
+@model RegisterViewModel
+
+
+@{
+    ViewData["Title"] = "ورود موفق";
+}
+
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 70vh;">
+
+    <div class="card shadow-sm text-center p-5"
+         style="max-width: 500px; width: 100%; border-radius: 15px;">
+
+        <div class="mb-4">
+            <i class="bi bi-check-circle-fill text-success"
+               style="font-size: 60px;"></i>
+        </div>
+
+        <h3 class="mb-3">
+            خوش آمدید 🌹@Model.UserName
+        </h3>
+
+        <p class="text-muted mb-2">
+            ورود شما با موفقیت انجام شد.
+        </p>
+
+        <p class="mb-4">
+            کد تأیید به ایمیل @Model.Email ارسال شد.
+            <br />
+            لطفاً ایمیل خود را بررسی کنید.
+        </p>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="btn btn-primary">
+            بازگشت به فروشگاه
+        </a>
+
+    </div>
+
+</div>

@@ -1,0 +1,81 @@
+﻿@using ShopStock.Domain.ViewModels.Role
+@model AdminDeleteRoleViewModel
+
+@{
+    ViewData["Title"] = "حذف نقش";
+}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <h5 class="mb-0">
+                حذف نقش
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-danger">
+
+                <h6 class="fw-bold">
+                    آیا از حذف این نقش مطمئن هستید؟
+                </h6>
+
+                <p class="mb-0">
+                    نقش
+                    <strong>@Model.RoleName</strong>
+                    حذف خواهد شد.
+                </p>
+
+            </div>
+
+
+            <div class="mb-4">
+
+                <label class="form-label fw-bold">
+                    نام نقش
+                </label>
+
+                <input type="text"
+                       class="form-control"
+                       asp-for="RoleName"
+                       disabled />
+
+            </div>
+
+
+            <form asp-area="Admin"
+                  asp-controller="Role"
+                  asp-action="Delete"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        حذف نقش
+                    </button>
+
+                    <a asp-area="Admin"
+                       asp-controller="Role"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        انصراف
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

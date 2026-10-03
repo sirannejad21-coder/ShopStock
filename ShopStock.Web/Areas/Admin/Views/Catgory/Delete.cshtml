@@ -1,0 +1,173 @@
+﻿@using ShopStock.Domain.Models.Catgories
+@model Catgory
+
+@{
+    ViewData["Title"] = "حذف گروه";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="fw-bold mb-1">
+                حذف گروه
+            </h4>
+
+            <p class="text-muted mb-0">
+                بررسی اطلاعات گروه قبل از حذف
+            </p>
+        </div>
+
+        <a asp-area="Admin"
+           asp-controller="Catgory"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+
+            <i class="bx bx-arrow-back me-1"></i>
+            بازگشت به گروه ها
+
+        </a>
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- User Information -->
+        <div class="col-xl-8 col-lg-8 col-md-12">
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0 text-danger">
+                        <i class="bx bx-trash me-1"></i>
+                        حذف گروه
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="alert alert-danger">
+
+                        <i class="bx bx-error-circle me-1"></i>
+
+                        آیا مطمئن هستید که می‌خواهید این کاربر را حذف کنید؟
+
+                        <br />
+
+                        این عملیات را با دقت انجام دهید.
+
+                    </div>
+
+
+                    <!-- First Name -->
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                نام
+                            </label>
+
+                            <input value="@Model.Tittle"
+                                   class="form-control"
+                                   readonly />
+
+                        </div>
+
+
+                        <!-- Last Name -->
+                        <div class="col-md-6">
+
+                            <label class="form-label">
+                                اسلاگ
+                            </label>
+
+                            <input value="@Model.Slug"
+                                   class="form-control"
+                                   readonly />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Username / Email -->
+                
+                    <!-- Buttons -->
+                    <form asp-area="Admin"
+                          asp-controller="catgory"
+                          asp-action="DeleteConfirmed"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.Id" />
+
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+
+                                <i class="bx bx-trash me-1"></i>
+                                حذف کاربر
+
+                            </button>
+
+
+                            <a asp-area="Admin"
+                               asp-controller="catgory"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
+
+                                انصراف
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Avatar -->
+        <div class="col-xl-4 col-lg-4 col-md-12">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <img src="~/CatgoriesImage/@Model.ImageName"
+                         alt="Avatar"
+                         class="rounded-circle border mb-3"
+                         style="width:140px;height:140px;object-fit:cover;" />
+
+
+                    <p class="text-muted mb-0">
+
+                        @Model.Tittle
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
